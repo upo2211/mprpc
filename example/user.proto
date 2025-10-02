@@ -1,0 +1,46 @@
+syntax = "proto3"; //声明了protobuf的版本
+
+package fixbug; //声明了代码所在的包
+
+//生成service服务类需要添加下列选项
+option cc_generic_services = true;
+
+message ResultCode
+{
+    int32 errcode = 1;
+    bytes errmsg = 2;
+}
+
+//定义登录请求消息类型 name pwd
+message LoginRequest
+{
+    bytes name = 1;
+    bytes pwd = 2;
+}
+
+//定义登录响应消息类型
+message LoginResponse
+{
+    ResultCode result = 1;
+    bool success = 2;
+}
+
+message RegisterResquest
+{
+    uint32 id = 1;
+    bytes pwd = 2;
+}
+
+message RegisterResponse
+{
+    ResultCode result = 1;
+    bool success = 2;
+}
+
+//在protobuf里面定义rpc方法
+service UserServiceRpc
+{
+    rpc Register(RegisterResquest) returns(RegisterResponse);
+    rpc Login(LoginRequest) returns(LoginResponse);
+}
+
